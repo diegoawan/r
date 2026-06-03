@@ -1,0 +1,92 @@
+local Main = Window:CreateTab("Main", 4483362458)
+local Noobs = Window:CreateTab("Noobs", 4483362458)
+local Upgrades = Window:CreateTab("Upgrades", 4483362458)
+local Factory = Window:CreateTab("Factory", 4483362458)
+local Animals = Window:CreateTab("Animals", 4483362458)
+
+local Remote = game:GetService("ReplicatedStorage"):WaitForChild("__Net"):WaitForChild("MainRemote")
+local Toggles = {}
+
+local function Auto(Tab, Name, Args)
+    Toggles[Name] = false
+    Tab:CreateToggle({
+        Name = Name,
+        CurrentValue = false,
+        Callback = function(v)
+            Toggles[Name] = v
+            task.spawn(function()
+                while Toggles[Name] do
+                    Remote:FireServer(unpack(Args))
+                    task.wait(0.1)
+                end
+            end)
+        end
+    })
+end
+
+Auto(Main, "Auto Prestige", { "Prestige" })
+Auto(Main, "Auto Tycoon", { "Tycoon" })
+Auto(Main, "Auto Deposit Wheat", { "DepositWheat" })
+
+Auto(Noobs, "Auto Starter", { "UpgradeNoob", "Starter" })
+Auto(Noobs, "Auto Cooker", { "UpgradeNoobMax", "Cooker" })
+Auto(Noobs, "Auto Farmer", { "UpgradeNoobMax", "Farmer" })
+Auto(Noobs, "Auto Archer", { "UpgradeNoobMax", "Archer" })
+
+Upgrades:CreateParagraph({
+    Title = "Oof Upgrades",
+    Content = "Noob gain, speed, and rebirth bonuses."
+})
+
+Auto(Upgrades, "Auto Noob Gain", { "UpgradeUpgradeMax", "Oof", "MoreOof" })
+Auto(Upgrades, "Auto Noob Speed", { "UpgradeUpgradeMax", "Oof", "FasterNoobs" })
+Auto(Upgrades, "Auto More Rebirth", { "UpgradeUpgradeMax", "Oof", "MoreRebirth" })
+
+Upgrades:CreateParagraph({
+    Title = "Fire Upgrades",
+    Content = "Peak Upgrades."
+})
+
+Auto(Upgrades, "Auto Fire Gain", { "UpgradeUpgradeMax", "Fire", "MoreFire" })
+Auto(Upgrades, "Auto Fire Noob Gain", { "UpgradeUpgradeMax", "Fire", "MoreOof" })
+Auto(Upgrades, "Auto Fire Rebirth", { "UpgradeUpgradeMax", "Fire", "MoreRebirth" })
+
+Upgrades:CreateParagraph({
+    Title = "Cash Upgrades",
+    Content = "Increase cash generation."
+})
+
+Auto(Upgrades, "Auto Cash Gain", { "UpgradeUpgradeMax", "Cash", "MoreCash" })
+
+Upgrades:CreateParagraph({
+    Title = "Wheat Upgrades",
+    Content = "Improve wheat deposits, bread production, and conversion."
+})
+
+Auto(Upgrades, "Auto More Bread", { "UpgradeUpgradeMax", "Bread", "MoreBread" })
+Auto(Upgrades, "Auto More Wheat", { "UpgradeUpgradeMax", "Bread", "MoreWheat" })
+Auto(Upgrades, "Auto Bigger Wheat Deposit", { "UpgradeUpgradeMax", "Bread", "BiggerWheatDeposit" })
+Auto(Upgrades, "Auto More Tier Luck", { "UpgradeUpgradeMax", "Bread", "MoreTierLuck" })
+Auto(Upgrades, "Auto More Consumption", { "UpgradeUpgradeMax", "Bread", "MoreConsumption" })
+Auto(Upgrades, "Auto Faster Wheat Conversion", { "UpgradeUpgradeMax", "Bread", "FasterWheatConversion" })
+
+Auto(Factory, "Auto Buy Factory", { "BuyFactory" })
+Auto(Factory, "Auto Merge T2", { "MergeFactory", 1, true })
+Auto(Factory, "Auto Merge T3", { "MergeFactory", 2, true })
+Auto(Factory, "Auto Merge T4", { "MergeFactory", 3, true })
+Auto(Factory, "Auto Merge T5", { "MergeFactory", 4, true })
+Auto(Factory, "Auto Merge T6", { "MergeFactory", 5, true })
+
+Animals:CreateParagraph({
+    Title = "Animal Upgrades",
+    Content = "Automatically level up your animals."
+})
+
+Auto(Animals, "Auto Level Chicken", { "UpgradeAnimal", "Chicken" })
+Auto(Animals, "Auto Level Cow", { "UpgradeAnimal", "Cow" })
+
+Rayfield:Notify({
+    Title = "Loaded",
+    Content = "Noob",
+    Duration = 5
+})
