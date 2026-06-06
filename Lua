@@ -24,6 +24,28 @@ local function Auto(Tab, Name, Args)
     })
 end
 
+local AutoWheat = false
+Main:CreateToggle({
+    Name = "Auto Wheat",
+    CurrentValue = false,
+    Callback = function(Value)
+        AutoWheat = Value
+        task.spawn(function()
+            while AutoWheat do
+                local Farm = workspace:FindFirstChild("__GAME_CONTENT") and workspace.__GAME_CONTENT:FindFirstChild("Farm")
+                if Farm then
+                    for _, v in pairs(Farm:GetDescendants()) do
+                        if v:IsA("ClickDetector") then
+                            fireclickdetector(v)
+                        end
+                    end
+                end
+                task.wait(0.1)
+            end
+        end)
+    end
+})
+
 Auto(Main, "Auto Prestige", { "Prestige" })
 Auto(Main, "Auto Tycoon", { "Tycoon" })
 Auto(Main, "Auto Deposit Wheat", { "DepositWheat" })
@@ -87,6 +109,6 @@ Auto(Animals, "Auto Level Cow", { "UpgradeAnimal", "Cow" })
 
 Rayfield:Notify({
     Title = "Loaded",
-    Content = "Noob",
+    Content = "All toggles ready!",
     Duration = 5
 })
